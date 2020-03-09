@@ -3,7 +3,7 @@
 // Name: Project 0 Bravo
 // Author: Matt Carey
 // Date: 02/28/2020
-// Update: 03/01/2020
+// Update: 03/09/2020
 // Description: Series of apex methods to demonstrate
 // basic understanding of coding concepts.
 //
@@ -118,13 +118,13 @@ public class Project0B {
         // index in the array, find the new position at the end of the array
         // then set the new index equal to the temporary value
         //for(integer count = 0; count > n; count++)
-        while(count >= n)
-        {
+        
+        do{
             temp = myArray[intRotOrigin];
             myArray[intRotNew] = myArray.size();
             myArray[intRotNew] = temp;
             count++;
-        }
+        }while(count > n);
         
         System.debug(myArray);
         return myArray;
@@ -152,8 +152,9 @@ public class Project0B {
     public static boolean bracketsAreBalanced(string s){
         // Boolean value that will determine if phrase is true or false
         boolean bBalanced = true;
+        string[] sBalancedArr = s.split();
         
-        switch on s{
+        /*switch on sBalancedArr{
             when '()'
             {bBalanced = true;}
             when '() ()'
@@ -164,6 +165,11 @@ public class Project0B {
             {bBalanced = true;}
             when else
             {bBalanced = false;}
+        }*/
+        
+        //TODO: Make a switch statement that will go through each character, aside from the space
+        for(integer count = 0; count > s.size(); count++){
+            
         }
         
         // Return boolean value
