@@ -152,7 +152,7 @@ public class Project0B {
     public static boolean bracketsAreBalanced(string s){
         // Boolean value that will determine if phrase is true or false
         boolean bBalanced = true;
-        string[] sBalancedArr = s.split();
+        //string[] sBalancedArr = s.split();
         
         /*switch on sBalancedArr{
             when '()'
@@ -168,9 +168,9 @@ public class Project0B {
         }*/
         
         //TODO: Make a switch statement that will go through each character, aside from the space
-        for(integer count = 0; count > s.size(); count++){
+        /*for(integer count = 0; count > s.size(); count++){
             
-        }
+        }*/
         
         // Return boolean value
         return bBalanced;
@@ -187,6 +187,29 @@ public class Project0B {
     *   Update the Size__c field on each account to reflect the amount of employees in
     *   the Account.
     */
+    public static void updateAccountSize(){
+        // Create a list of accounts
+        list<Account> accList = [SELECT Id, NumberOfEmployees FROM Account];
+        
+        // Create a for "each" loop that will iterate through the entire list
+        // Make a if-else statement that will check different cases and assign the values for
+        // the custom picklist made
+        // If the number of employees is less than or equal to 1000, assign the value small
+        // Else if the number of employees greater than or equal to 1001 and less than or equal to
+        // 10000, assign the value medium
+        // else if the number of employees is greater than 10000, assign the value large
+        for(Account newAcct : accList){
+            if(newAcct.NumberOfEmployees <= 1000)
+                newAcct.Size__c = 'Small';
+            else if(newAcct.NumberOfEmployees >= 1001 && newAcct.NumberOfEmployees <= 10000)
+                newAcct.Size__c = 'Medium';
+            else if(newAcct.NumberOfEmployees > 10000)
+                newAcct.Size__c = 'Large';
+        }
+        
+        // Update the account list
+        update accList;
+    }
 
     /*
     *   7. Create a method that will find all leads that contain 'ca' in their fields.
@@ -194,6 +217,27 @@ public class Project0B {
     *   Converted' and their description should display the message, "We are no longer doing
     *   business in California."
     */
+    public static void updateCALeads(){
+        // Create a list variable that will gather the Id, State, Description, and Status
+        // from the Lead object
+        list<Lead> leadList = [SELECT Id, State, Description, Status FROM Lead];
+        
+        // Create a for "each" loop that will iterate through each element in the leadList
+        // list variable
+        // If the state associated with the lead is 'CA'
+        // change the status to 'Closed - Not Converted' and the description to
+        // 'We are no longer doing business in California.' 
+        for(Lead newLead : leadList){
+            if(newLead.State == 'CA'){
+                newLead.Status = 'Closed - Not Converted';
+                newLead.Description = 'We are no longer doing business in California.';
+            }
+        }
+        
+        // Update the list
+        update leadList;
+    }
+    
 
     /*
     *   8. Create a method that will find all Opportunities which have already passed
@@ -201,4 +245,20 @@ public class Project0B {
     *   have passed their Close Date and they are not marked as 'Closed Won', they
     *   should be marked as 'Closed Lost'.
     */
+    public static void closePastDueOpportunities(){
+        // Create a list of Opportunities that gets the Id, ClosedDate, and StageName
+        // from Opportunity
+        list<Opportunity> oppList = [SELECT Id, CloseDate, StageName FROM Opportunity];
+        
+        // Make a for "each" loop that itterates through the oppList list variable
+        // If the ClosedDate is less than the current date, assign the StageName value to
+        // 'Closed Lost'
+        for(Opportunity newOpp : oppList){
+            if(newOpp.CloseDate < date.today())
+                newOpp.StageName = 'Closed Lost';
+        }
+        
+        // Update the Opportunity list
+        update oppList;
+    }
 }
